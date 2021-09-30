@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dat Chat</title>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <aside>
+    <span id="you"></span><span> (You)</span>
+    <br>
+    <input class="nickname-box" id="nickname-box" type="text" data-testid="nickname-box">
+    <button class="btn-success" id="nickname-button" data-testid="nickname-button">change nickname</button>
+    <hr>
+    <p id="total-users">Users (<%= users.length %>)</p>
+    <ul class="user-panel" id="users">
+      <% users.forEach((user) => { %>
+        <div>
+          <img src="/images/avatar.svg" alt="profile" width="20px" class="avatar" >
+          <li data-testid="online-user">
+            <%= user.nickname %>
+          </li>
+        </div>
+      <% }) %>
+    </ul>
+  </aside>
+  <main>
+    <ul class="chat" id="messages">
+      <% messages.forEach(({ timestamp, nickname, chatMessage }) => { %>
+        <li data-testid="message" class="message">
+          <time><%=  timestamp %></time>
+          <span><%= nickname %></span>: <%= chatMessage %>
+        </li>
+      <% }) %>
+    </ul>
+    <div class="send-area">
+      <input
+        autofocus
+        data-testid="message-box"
+        class="chat-input"
+        id="chat-input"
+        type="text"
+        autocomplete="off"
+      >
+      <button data-testid="send-button" class="send-button" id="send-button">
+        <img alt="send message" src="/images/send-button.svg" width="100%">
+      </button>
+    </div>
+  </main>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
+</html>
