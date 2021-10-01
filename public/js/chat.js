@@ -18,6 +18,24 @@ const nicknameButton = document.getElementById('nickname-button');
 const messagesArea = document.getElementById('messages');
 const userList = document.getElementById('users');
 const totalUsers = document.getElementById('total-users');
+const toggleButton = document.getElementById('toggle-user-panel');
+const userPanel = document.querySelector('#user-panel');
+
+const togglePanel = (toggle) => {
+  if (toggle) {
+    toggleButton.classList.remove('hidden');
+    userPanel.style.position = 'inherit';
+    toggleButton.style.left = `${userPanel.offsetWidth}px`;
+  } else {
+    toggleButton.classList.add('hidden');
+    userPanel.style.position = 'absolute';
+    userPanel.style.left = `-${userPanel.offsetWidth}px`;
+    toggleButton.style.left = '5px';
+  }
+};
+
+toggleButton
+  .addEventListener('click', () => togglePanel(toggleButton.classList.contains('hidden')));
 
 sendButton.addEventListener('click', () => {
   socket.emit('message', { nickname: you.innerText, chatMessage: inputMessage.value });
@@ -105,4 +123,8 @@ socket.on('logoff', removeUser);
 
 window.onbeforeunload = () => {
   socket.disconnect();
+};
+
+window.onload = () => {
+  userPanel.style.left = `-${userPanel.offsetWidth}px`;
 };
